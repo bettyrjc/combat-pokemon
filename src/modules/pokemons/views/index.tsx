@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { getPokemonList } from '../store/pokemon.action'
 import LazyImage from '../components/LazyImage'
@@ -12,25 +12,38 @@ import { PlusIcon } from '@heroicons/react/24/solid'
 export default function PokemonList() {
   const dispatch = useAppDispatch()
   const { loading, pokemons, error } = useAppSelector((state) => state.pokemon)
-
+  const searchRef = useRef<HTMLInputElement>(null)
+  const [searchResult, setSearchResult] = useState(pokemons)
+  console.log('searchResult', searchResult)
   useEffect(() => {
     dispatch(getPokemonList())
   }, [dispatch])
-
 
   const addPokemon = (data: any) => {
     //TODO: add the pokemon to the list
     //TODO: create a store for the selected pokemons
     console.log(data.url)
   }
+
+  const filteredPokemons = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    // Convert to lower case for case insensitive comparison
+    const searchValue = searchRef.current?.value.toLowerCase(); 
+    // Filter the pokemons based on search value
+    const filtered = pokemons.filter((pokemon: PokemonDetail) =>
+      pokemon.name.toLowerCase().includes(searchValue!)
+    );
+    // Update the search result
+    setSearchResult(filtered);
+  };
   //TODO: add a loading spinner
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error: {error}</div>
 
   return (
     <div className="w-full col-span-2 px-5">
-      {/* input de busqueda */}
-      <SearchIcon />
+      {/*TODO: filter for name all api */}
+      <SearchIcon ref={searchRef} onChange={filteredPokemons} />
       {/* listado de pokemons */}
       <div className='flex flex-wrap justify-center gap-5 overflow-scroll min-h-[700px] max-h-[1200px]'>
         {pokemons.map((pokemon: PokemonDetail) => (
