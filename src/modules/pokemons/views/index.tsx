@@ -28,12 +28,12 @@ export default function PokemonList() {
     //TODO: create a store for the selected pokemons
     console.log(data.url)
   }
-      {/*TODO: filter for name all api */}
+  {/*TODO: filter for name all api */ }
 
   const filteredPokemons = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     // Convert to lower case for case insensitive comparison
-    const searchValue = searchRef.current?.value.toLowerCase(); 
+    const searchValue = searchRef.current?.value.toLowerCase();
     // Filter the pokemons based on search value
     const filtered = pokemons.filter((pokemon: PokemonDetail) =>
       pokemon.name.toLowerCase().includes(searchValue!)
