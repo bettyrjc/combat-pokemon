@@ -7,6 +7,7 @@ import { PokemonDetail } from '../../interfaces/Pokemons.interface'
 import SearchIcon from '../../shared/inputs/SearchIcon'
 import CircleButton from '../../shared/buttons/CircleButton'
 import { PlusIcon } from '@heroicons/react/24/solid'
+import ListSkeleton from '../components/ListSkeleton'
 
 
 export default function PokemonList() {
@@ -42,7 +43,7 @@ export default function PokemonList() {
     setTimeout(() => setSearchResult(filtered), 500)
   };
   //TODO: add a loading spinner
-  if (loading) return <div>Loading...</div>
+  if (loading) return <ListSkeleton />
   if (error) return <div>Error: {error}</div>
 
   return (
