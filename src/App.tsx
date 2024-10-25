@@ -9,7 +9,7 @@ function App() {
       {/* main */}
       {/* footer */}
 
-      {/* redux configurations */}
+      {/* redux configurations ✅ */}
       {/* api  */}
       {/* routes */}
       {/* daysi ui and tailwind configurations ✅ */}
