@@ -49,7 +49,9 @@ export const CombatPokemonProvider: FC<{ children: ReactNode }> = ({ children })
   const [imagesList, setImagesList] = useState<any>([])
 
   const addPokemon = (data: any) => {
-    const id = extractUrlId(data.url)
+    const id = data?.id ? String(data.id) : extractUrlId(data.url)
+    const normalizeId = (id: string | number): string => String(id).trim();
+    const pokemonImage = data?.image ? data : imagesList.find((item: any) => normalizeId(item.id) === normalizeId(id));
     const isPokemon = combatList.some((item: any) => item.id === id)
     if (isPokemon ){
       toast('Este pokemon ya esta en la lista 🤺', {
@@ -61,8 +63,6 @@ export const CombatPokemonProvider: FC<{ children: ReactNode }> = ({ children })
       toast.error('No puedes agregar mas de 6 pokemones');
       return;
     }
-    const normalizeId = (id: string | number): string => String(id).trim();
-    const pokemonImage = imagesList.find((item: any) => normalizeId(item.id) === normalizeId(id));
     const newPokemon: PokemonCombat = {
       id,
       name: data.name,

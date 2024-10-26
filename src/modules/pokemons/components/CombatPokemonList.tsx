@@ -1,13 +1,12 @@
+import { useEffect, useState } from 'react';
+
 import { TrashIcon } from '@heroicons/react/24/solid';
 import CircleButton from '../../shared/buttons/CircleButton';
 import { PokemonCombat, useCombatPokemonContext } from '../contenxt/AddPokemonContext';
-import { useEffect, useState } from 'react';
 
 const CombatPokemonList = () => {
   const { combatList, deletePokemon } = useCombatPokemonContext();
   const [hoveredPokemon, setHoveredPokemon] = useState<string | null>(null);
-  console.log('combatList', combatList)
-
   useEffect(() => {
     if (combatList.length === 0) {
       setHoveredPokemon(null)
@@ -15,17 +14,17 @@ const CombatPokemonList = () => {
   }, [combatList])
 
   return (
-    <div className=''>
+    <div className='h-full overflow-auto scrollbar-hidden'>
       <h2 className='mb-4 text-3xl font-bold text-center text-primary'>Listos para el combate 🤺</h2>
       <div className="flex flex-wrap justify-center gap-2 ">
         {
-          combatList.length === 0 ?
+          combatList?.length === 0 ?
             <p className='text-center text-gray-500 align-middle text-md'>Lista vacia, no hay ningun pokemon listo.</p>
             :
             combatList.map((pokemon: PokemonCombat) => (
               <div
                 key={pokemon.id}
-                className="relative flex justify-center flex-col items-center p-4 bg-base-100 rounded-xl w-[120px] h-[140px] group"
+                className="relative flex justify-center flex-col items-center hover:border-none p-4 bg-base-300  shadow-lg border border-orange-100 rounded-xl w-[190px] h-[180px] group"
                 onMouseEnter={() => setHoveredPokemon(pokemon.id)}
                 onMouseLeave={() => setHoveredPokemon(null)}
               >
@@ -35,10 +34,14 @@ const CombatPokemonList = () => {
                 ${hoveredPokemon === pokemon.id ? 'block' : 'hidden'}`}>
                   <div className='flex flex-col items-center justify-center h-full gap-5'>
                     <p className='text-sm font-bold text-white'>{pokemon.name.toUpperCase()}</p>
-                    <CircleButton
-                      icon={<TrashIcon className='text-white size-4' />}
-                      onClick={() => deletePokemon(pokemon.id)}
-                    />
+                    <div className='flex gap-1'>
+                      <CircleButton
+                        icon={<TrashIcon className='text-white size-4' />}
+                        onClick={() => deletePokemon(pokemon.id)}
+                      />
+                      {/* TODO: go to detail */}
+                    </div>
+
                   </div>
                 </div>
                 <img src={pokemon.image} alt={pokemon.name}

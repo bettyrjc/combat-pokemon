@@ -13,8 +13,8 @@ const initialState: PokemonState = {
   error: null
 }
 
-const pokemonSlice = createSlice({
-  name: 'pokemon',
+const pokemonsSlice = createSlice({
+  name: 'pokemons',
   initialState,
   reducers: {
     setPokemonsLoading: (state) => {
@@ -37,6 +37,6 @@ export const {
   setPokemonsLoading, 
   setPokemonsSuccess, 
   setPokemonsError 
-} = pokemonSlice.actions
+} = pokemonsSlice.actions
 
-export default pokemonSlice.reducer
+export default pokemonsSlice.reducer

@@ -1,19 +1,23 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PokemonList from './modules/pokemons/views/index';
 import { Toaster } from 'react-hot-toast';
-function App() {
+import PokemonDetail from './modules/pokemons/views/[id]';
 
+function App() {
   return (
-    <>
-      <PokemonList />
+    <Router>
       <Toaster
         position="top-right"
         toastOptions={{
-          // Define default options
           duration: 3000,
         }}
       />
-    </>
-  )
+      <Routes>
+        <Route path="/" element={<PokemonList />} />
+        <Route path="/pokemons/:id" element={<PokemonDetail />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
