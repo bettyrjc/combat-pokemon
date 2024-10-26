@@ -9,7 +9,6 @@ import { PlusIcon } from '@heroicons/react/24/solid'
 import ListSkeleton from '../components/ListSkeleton'
 import { useCombatPokemonContext } from '../contenxt/AddPokemonContext'
 import { Link } from 'react-router-dom'
-//TODO: REMOVE ANY TYPES
 
 export default function PokemonList() {
   const dispatch = useAppDispatch()

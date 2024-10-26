@@ -39,7 +39,7 @@ const CombatPokemonList = () => {
                         icon={<TrashIcon className='text-white size-4' />}
                         onClick={() => deletePokemon(pokemon.id)}
                       />
-                      {/* TODO: go to detail */}
+                      {/* suggest go to detail */}
                     </div>
 
                   </div>

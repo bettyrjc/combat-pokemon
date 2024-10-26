@@ -4,7 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import { httpInstance } from '../../../assets/api';
 import { useCombatPokemonContext } from '../contenxt/AddPokemonContext';
 
-const LazyImage = ({ url, name }: any) => {
+type LazyImageProps = {
+  url: string;
+  name: string;
+}
+
+const LazyImage = ({ url, name }: LazyImageProps) => {
   const [imageSrc, setImageSrc] = useState(null);
   const imgRef = useRef(null);
   const {setImagesList, imagesList } = useCombatPokemonContext();

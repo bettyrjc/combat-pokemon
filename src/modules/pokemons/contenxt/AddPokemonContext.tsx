@@ -1,20 +1,26 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
+
 import { createContext, FC, ReactNode, useContext, useState } from "react";
 import { extractUrlId } from "../../shared/common";
 import toast from "react-hot-toast";
+import { PokemonDetail } from "../interfaces/Pokemons.interface";
+
 type PokemonContextProps = {
-  combatList: any;
-  setCombatList: (value: any) => void;
-  addPokemon: (data: any) => void;
-  imagesList: any;
-  setImagesList: (value: any) => void;
+  combatList: PokemonCombat[];
+  setCombatList: React.Dispatch<React.SetStateAction<PokemonCombat[]>>;
+  addPokemon: (data: PokemonDetail) => void;
+  imagesList: ImageCombat[];
+  setImagesList: React.Dispatch<React.SetStateAction<ImageCombat[]>>;
   deletePokemon: (id: string) => void;
 };
 
 export type PokemonCombat = {
   id: string;
   name: string;
+  image?: string;
+}
+export type ImageCombat = {
+  id: string;
   image?: string;
 }
 
@@ -45,14 +51,14 @@ export function useCombatPokemonContext() {
 }
 
 export const CombatPokemonProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [combatList, setCombatList] = useState<any>([])
-  const [imagesList, setImagesList] = useState<any>([])
+  const [combatList, setCombatList] = useState<PokemonCombat[]>([])
+  const [imagesList, setImagesList] = useState<ImageCombat[]>([])
 
-  const addPokemon = (data: any) => {
+  const addPokemon = (data: PokemonDetail) => {
     const id = data?.id ? String(data.id) : extractUrlId(data.url)
     const normalizeId = (id: string | number): string => String(id).trim();
-    const pokemonImage = data?.image ? data : imagesList.find((item: any) => normalizeId(item.id) === normalizeId(id));
-    const isPokemon = combatList.some((item: any) => item.id === id)
+    const pokemonImage = data?.image ? data : imagesList.find((item: ImageCombat) => normalizeId(item.id) === normalizeId(id));
+    const isPokemon = combatList.some((item: PokemonCombat) => item.id === id)
     if (isPokemon ){
       toast('Este pokemon ya esta en la lista 🤺', {
         icon: 'ℹ️'
@@ -68,11 +74,11 @@ export const CombatPokemonProvider: FC<{ children: ReactNode }> = ({ children })
       name: data.name,
       image: pokemonImage?.image
     };
-    setCombatList((prev: any) => [...prev, newPokemon]);
+    setCombatList((prev: PokemonCombat[]) => [...prev, newPokemon]);
   }
 
   const deletePokemon = (id: string) => {
-    const deletedPokemon = combatList.filter((item: any) => item.id !== id);
+    const deletedPokemon = combatList.filter((item: PokemonCombat) => item.id !== id);
     setCombatList(deletedPokemon);
   }
   return (

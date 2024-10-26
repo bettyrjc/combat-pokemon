@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { PokemonInterfaceList } from '../../interfaces/Pokemons.interface'
 
 interface PokemonState {
   loading: boolean
-  pokemons: any[]
+  pokemons: PokemonInterfaceList[]
   error: string | null
 }
 
