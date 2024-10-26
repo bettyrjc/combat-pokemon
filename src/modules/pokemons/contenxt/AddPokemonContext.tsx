@@ -78,6 +78,7 @@ export const CombatPokemonProvider: FC<{ children: ReactNode }> = ({ children })
   }
 
   const deletePokemon = (id: string) => {
+    console.log('delete', typeof id)
     const deletedPokemon = combatList.filter((item: PokemonCombat) => item.id !== id);
     setCombatList(deletedPokemon);
   }

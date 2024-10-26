@@ -1,9 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { useEffect } from "react";
-import { getPokemonDetail } from "../store/pokemon.action";
-import { useCombatPokemonContext } from "../contenxt/AddPokemonContext";
 import { ChevronLeftIcon, PlusIcon } from "@heroicons/react/24/solid";
+
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { getPokemonDetail } from "../store/pokemon.action";
+import { PokemonCombat, useCombatPokemonContext } from "../contenxt/AddPokemonContext";
+import NotFoundPokemon from "../components/NotFoundPokemon";
+import PokemonDetailSkeleton from '../components/PokemonDetailSkeleton';
 
 interface StatsProps {
   baseStat: number;
@@ -29,41 +33,48 @@ const Description = ({ name, decription }:
 const PokemonDetail = () => {
   const dispatch = useAppDispatch()
   const { id } = useParams()
-  const { addPokemon } = useCombatPokemonContext();
+  const { addPokemon, combatList, deletePokemon } = useCombatPokemonContext();
 
   const { loading, pokemon, error } = useAppSelector((state) => state.pokemon)
+
   useEffect(() => {
     if (!id) return;
     dispatch(getPokemonDetail(id))
   }, [dispatch, id])
 
-  const newPokemonToCombat = () => {
+  const isPokemonInCombatList = useMemo(() => {
+    if (combatList.length === 0 || !id) return false;
+    return combatList.some((item: PokemonCombat) => String(item?.id) === String(pokemon.id));
+  }, [combatList, pokemon]);
+
+
+  const actionToCombat = () => {
+    if (isPokemonInCombatList && pokemon.id) {
+      deletePokemon(pokemon.id.toString())
+      return;
+    }
     addPokemon({
       id: pokemon?.id,
       name: pokemon?.name,
       image: pokemon?.sprites?.other?.dream_world?.front_default
     })
   }
-  if (loading) return <div>Loading...</div>
-  if (error) return <div className="flex flex-col items-center justify-center flex-1 h-full">
-    <h1 className="text-2xl text-primary">No se encontro este pokemon</h1>
-    <p className="text-gray-400">Error: {error}</p>
-    <Link to="/" className="underline text-secondary">Volver a la lista</Link>
-  </div>
+  if (loading) return <PokemonDetailSkeleton />
+  if (error) return <NotFoundPokemon error={error} />
   return (
     <>
 
       <div className="px-4 py-5 shadow-lg bg-base-200">
         <div className="flex justify-between mb-6">
           <Link to="/" className="flex items-center gap-2 text-gray-500 hover:text-secondary">
-            <ChevronLeftIcon className="size-3"/>
+            <ChevronLeftIcon className="size-3" />
             <span> Volver</span>
           </Link>
           <button className="btn btn-outline btn-secondary"
-            onClick={newPokemonToCombat}
+            onClick={actionToCombat}
           >
             <PlusIcon className=' size-5' />
-            Agregar a la lista
+            {isPokemonInCombatList ? 'Eliminar de la lista' : 'Agregar a la lista'}
           </button>
         </div>
         <div className="flex items-center justify-center">
