@@ -4,7 +4,7 @@ const SearchIcon = forwardRef<HTMLInputElement, { onChange: (e: ChangeEvent<HTML
   ({ onChange }, ref) => {
     return (
       <div className='flex items-center justify-center h-40 overflow-y-auto'>
-        <label className="flex items-center w-1/2 gap-2 input input-bordered">
+        <label className="flex items-center w-2/3 gap-2 xl:w-1/2 input input-bordered">
           <input
             type="text"
             className=" grow"
@@ -24,6 +24,7 @@ const SearchIcon = forwardRef<HTMLInputElement, { onChange: (e: ChangeEvent<HTML
             clipRule="evenodd"
             />
           </svg>
+          {/* TODO: clear input button */}
         </label>
       </div>
     );

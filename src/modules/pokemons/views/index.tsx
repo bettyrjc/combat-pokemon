@@ -1,21 +1,23 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { getPokemonList } from '../store/pokemon.action'
 import LazyImage from '../components/LazyImage'
-import { PokemonDetail } from '../../interfaces/Pokemons.interface'
+import { PokemonDetail } from '../interfaces/Pokemons.interface'
 import SearchIcon from '../../shared/inputs/SearchIcon'
 import CircleButton from '../../shared/buttons/CircleButton'
 import { PlusIcon } from '@heroicons/react/24/solid'
 import ListSkeleton from '../components/ListSkeleton'
-
+import { useCombatPokemonContext } from '../contenxt/AddPokemonContext'
+//TODO: REMOVE ANY TYPES
 
 export default function PokemonList() {
   const dispatch = useAppDispatch()
-  const { loading, pokemons, error } = useAppSelector((state) => state.pokemon)
   const searchRef = useRef<HTMLInputElement>(null)
+  const { loading, pokemons, error } = useAppSelector((state) => state.pokemon)
+  const { addPokemon } = useCombatPokemonContext();
+
   const [searchResult, setSearchResult] = useState(pokemons)
-  console.log('searchResult', searchResult)
+
   useEffect(() => {
     dispatch(getPokemonList())
   }, [dispatch])
@@ -24,12 +26,7 @@ export default function PokemonList() {
     setSearchResult(pokemons)
   }, [pokemons])
 
-  const addPokemon = (data: any) => {
-    //TODO: add the pokemon to the list
-    //TODO: create a store for the selected pokemons
-    console.log(data.url)
-  }
-  {/*TODO: filter for name all api */ }
+
 
   const filteredPokemons = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -42,12 +39,11 @@ export default function PokemonList() {
     // Update the search result with delay for a better UX
     setTimeout(() => setSearchResult(filtered), 500)
   };
-  //TODO: add a loading spinner
   if (loading) return <ListSkeleton />
   if (error) return <div>Error: {error}</div>
 
   return (
-    <div className="w-full col-span-2 px-5">
+    <>
       <SearchIcon ref={searchRef} onChange={filteredPokemons} />
       <div className='flex flex-wrap justify-center gap-5 overflow-scroll min-h-[700px] max-h-[1200px]'>
         {searchResult.map((pokemon: PokemonDetail) => (
@@ -58,11 +54,12 @@ export default function PokemonList() {
                 onClick={() => addPokemon(pokemon)}
               />
             </div>
-            <LazyImage url={pokemon.url} name={pokemon.name} />
+            <LazyImage url={pokemon.url} name={pokemon.name}
+            />
             <h2 className="pt-4 pb-3 text-lg text-center ">{pokemon.name}</h2>
           </div>
         ))}
       </div>
-    </div>
+    </>
   )
 }

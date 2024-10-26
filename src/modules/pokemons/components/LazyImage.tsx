@@ -1,10 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from 'react';
 import { httpInstance } from '../../../assets/api';
-import { PokemonDetail } from '../../interfaces/Pokemons.interface';
+import { useCombatPokemonContext } from '../contenxt/AddPokemonContext';
 
-const LazyImage = ({ url, name }: PokemonDetail) => {
+const LazyImage = ({ url, name }: any) => {
   const [imageSrc, setImageSrc] = useState(null);
   const imgRef = useRef(null);
+  const {setImagesList, imagesList } = useCombatPokemonContext();
   //optimazed this -separe for more readability
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -14,6 +17,15 @@ const LazyImage = ({ url, name }: PokemonDetail) => {
           // do the petition only when the image is in viewport
           const response = await httpInstance.get(url);
           const pokemonDetail = await response.data;
+          const isPokemon = imagesList.some((item: any) => item.id === pokemonDetail.id)
+          if (!isPokemon) {
+            setImagesList((prev: any) => [...prev,
+            {
+              id: pokemonDetail.id,
+              image: pokemonDetail.sprites.other.dream_world.front_default,
+            }
+            ]);
+          }
           setImageSrc(pokemonDetail.sprites.other.dream_world.front_default);
           observer.unobserve(imgRef.current!); // stop to observer when image is loaded
         }

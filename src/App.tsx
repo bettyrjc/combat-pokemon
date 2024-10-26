@@ -1,25 +1,18 @@
 import PokemonList from './modules/pokemons/views/index';
-// {/* layout */}
-// {/* header */}
-// {/* main */}
-// {/* footer */}
-
-// {/* redux configurations ✅ */}
-// {/* api ✅  */}
-// {/* routes */}
-// {/* daysi ui and tailwind configurations ✅ */}
-// {/* hooks ✅  */}
-// {/* utils ✅ */}
+import { Toaster } from 'react-hot-toast';
 function App() {
 
   return (
-    <div className="grid h-screen grid-cols-3 overflow-y-hidden bg-base-200">
+    <>
       <PokemonList />
-      {/* another section WIP */}
-      <div className="col-span-1 p-10 bg-purple-500">
-        Quien esta listo para el combate
-      </div>
-    </div>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          // Define default options
+          duration: 3000,
+        }}
+      />
+    </>
   )
 }
 
