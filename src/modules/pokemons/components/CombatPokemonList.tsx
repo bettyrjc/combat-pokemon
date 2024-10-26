@@ -1,17 +1,24 @@
 import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { TrashIcon } from '@heroicons/react/24/solid';
-import CircleButton from '../../shared/buttons/CircleButton';
+import { EyeIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { PokemonCombat, useCombatPokemonContext } from '../contenxt/AddPokemonContext';
 
 const CombatPokemonList = () => {
   const { combatList, deletePokemon } = useCombatPokemonContext();
   const [hoveredPokemon, setHoveredPokemon] = useState<string | null>(null);
+  const navigate = useNavigate();
   useEffect(() => {
     if (combatList.length === 0) {
       setHoveredPokemon(null)
     }
   }, [combatList])
+
+
+  const getPokemonDetail = (name: string) => {
+    navigate(`/pokemons/${name}`);
+
+  }
 
   return (
     <div className='h-full overflow-auto scrollbar-hidden'>
@@ -33,13 +40,17 @@ const CombatPokemonList = () => {
                 cursor-pointer transition-opacity duration-200
                 ${hoveredPokemon === pokemon.id ? 'block' : 'hidden'}`}>
                   <div className='flex flex-col items-center justify-center h-full gap-5'>
-                    <p className='text-sm font-bold text-white'>{pokemon.name.toUpperCase()}</p>
+                    <p className='text-sm font-bold text-white'
+                      onClick={() => getPokemonDetail(pokemon.name)}
+                    >{pokemon.name.toUpperCase()}</p>
                     <div className='flex gap-1'>
-                      <CircleButton
-                        icon={<TrashIcon className='text-white size-4' />}
-                        onClick={() => deletePokemon(pokemon.id)}
-                      />
+                      <button className='p-1 transition-all duration-300 rounded-full shadow-xl hover:bg-secondary' onClick={() => deletePokemon(pokemon.id)}>
+                        <TrashIcon className='text-white size-4' />
+                      </button>
                       {/* suggest go to detail */}
+                      <Link to={`/pokemons/${pokemon.name}`} className='p-1 transition-all duration-300 rounded-full shadow-xl hover:bg-secondary '>
+                        <EyeIcon className='text-white size-4' />
+                      </Link>
                     </div>
 
                   </div>

@@ -6,14 +6,17 @@ import { Provider } from 'react-redux'
 import { store } from './store.ts'
 import { CombatPokemonProvider } from './modules/pokemons/contenxt/AddPokemonContext.tsx'
 import Layout from './modules/shared/layout/index.tsx'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
       <CombatPokemonProvider>
-        <Layout>
-          <App />
-        </Layout>
+        <Router>
+          <Layout>
+            <App />
+          </Layout>
+        </Router>
       </CombatPokemonProvider>
     </Provider>
   </StrictMode>,

@@ -10,6 +10,7 @@ const CircleButton = ({
   className?: string
   isDisabled?: boolean
   isLoading?: boolean
+  withBackground?: boolean
 }) => {
   return (
     <button className={`

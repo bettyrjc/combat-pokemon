@@ -78,15 +78,15 @@ const PokemonDetail = () => {
           </button>
         </div>
         <div className="flex items-center justify-center">
-          <img src={pokemon?.sprites?.other?.dream_world?.front_default} alt={'pokemon'} />
+          <img src={pokemon?.sprites?.other?.dream_world?.front_default} alt={'pokemon'} className="w-[200px] h-[200px] xl:w-auto xl:h-auto" />
         </div>
-        <h1 className="mt-10 text-3xl font-bold text-primary">{pokemon?.name}</h1>
+        <h1 className="mt-5 text-3xl font-bold text-primary">{pokemon?.name}</h1>
         <div className="flex justify-between mt-4">
           <Description name="Número" decription={pokemon?.id?.toString() || ''} />
           <Description name="Altura" decription={pokemon?.height?.toString() || ''} />
           <Description name="Tipo" decription={pokemon?.types?.[0]?.type?.name || ''} />
         </div>
-        <h1 className="mt-3 mb-4 text-lg font-medium ">Estadísticas base</h1>
+        <h1 className="mt-2 mb-2 text-lg font-medium ">Estadísticas base</h1>
         <div className="grid grid-cols-3 xl:grid-cols-5">
           <Stats baseStat={pokemon?.stats?.[1]?.base_stat || 0} statName="Ataque" />
           <Stats baseStat={pokemon?.stats?.[2]?.base_stat || 0} statName="Defensa" />

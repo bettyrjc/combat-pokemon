@@ -75,10 +75,11 @@ export const CombatPokemonProvider: FC<{ children: ReactNode }> = ({ children })
       image: pokemonImage?.image
     };
     setCombatList((prev: PokemonCombat[]) => [...prev, newPokemon]);
+    toast.success(`Has agregado un ${newPokemon.name.toLocaleUpperCase()} a la lista 🤺`);
+
   }
 
   const deletePokemon = (id: string) => {
-    console.log('delete', typeof id)
     const deletedPokemon = combatList.filter((item: PokemonCombat) => item.id !== id);
     setCombatList(deletedPokemon);
   }
