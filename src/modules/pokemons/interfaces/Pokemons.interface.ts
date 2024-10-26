@@ -1,3 +1,5 @@
+import { Sprites, Stat, Type } from "./Pokemon.interface";
+
 export interface PokemonInterfaceList {
   count: number;
   next: string;
@@ -7,7 +9,11 @@ export interface PokemonInterfaceList {
 
 export interface PokemonDetail {
   name: string;
-  url: string;
+  url?: string;
   id?: string;
   image?: string;
+  sprites?: Sprites;
+  height?: number;
+  types?: Type[];
+  stats?: Stat[];
 }

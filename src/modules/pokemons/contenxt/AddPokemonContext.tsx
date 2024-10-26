@@ -55,7 +55,7 @@ export const CombatPokemonProvider: FC<{ children: ReactNode }> = ({ children })
   const [imagesList, setImagesList] = useState<ImageCombat[]>([])
 
   const addPokemon = (data: PokemonDetail) => {
-    const id = data?.id ? String(data.id) : extractUrlId(data.url)
+    const id = data?.id ? String(data.id) : extractUrlId(data.url || '')
     const normalizeId = (id: string | number): string => String(id).trim();
     const pokemonImage = data?.image ? data : imagesList.find((item: ImageCombat) => normalizeId(item.id) === normalizeId(id));
     const isPokemon = combatList.some((item: PokemonCombat) => item.id === id)
