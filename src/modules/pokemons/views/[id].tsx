@@ -7,22 +7,11 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { getPokemonDetail } from "../store/pokemon.action";
 import { PokemonCombat, useCombatPokemonContext } from "../contenxt/AddPokemonContext";
 import NotFoundPokemon from "../components/NotFoundPokemon";
-import PokemonDetailSkeleton from '../components/PokemonDetailSkeleton';
+import PokemonDetailSkeleton from '../components/detail/PokemonDetailSkeleton';
+import StatsDetail from "../components/detail/StatsDetail";
 
-interface StatsProps {
-  baseStat: number;
-  statName: string;
-}
-const Stats = ({ baseStat, statName }: StatsProps) => {
-  return (
-    <div className="flex flex-col items-center justify-center mb-5">
-      <div className="bg-blue-50 radial-progress text-secondary" style={{ "--value": baseStat } as React.CSSProperties} role="progressbar">
-        {baseStat} %
-      </div>
-      <p className="mt-2 text-sm text-center text-secondary">{statName}</p>
-    </div>
-  )
-}
+
+
 const Description = ({ name, decription }:
   { name: string, decription: string }) => {
   return (
@@ -66,21 +55,26 @@ const PokemonDetail = () => {
 
       <div className="px-4 py-5 shadow-lg bg-base-200">
         <div className="flex justify-between mb-6">
-          <Link to="/" className="flex items-center gap-2 text-gray-500 hover:text-secondary">
+          <Link to="/" className="flex items-center gap-2 text-gray-500 hover:text-secondary"
+            data-cy="back-link"
+          >
             <ChevronLeftIcon className="size-3" />
             <span> Volver</span>
           </Link>
           <button className="btn btn-outline btn-secondary"
             onClick={actionToCombat}
+            data-cy="combat-button"
           >
             <PlusIcon className=' size-5' />
             {isPokemonInCombatList ? 'Eliminar de la lista' : 'Agregar a la lista'}
           </button>
         </div>
         <div className="flex items-center justify-center">
-          <img src={pokemon?.sprites?.other?.dream_world?.front_default} alt={'pokemon'} className="w-[200px] h-[200px] xl:w-auto xl:h-auto" />
+          <img src={pokemon?.sprites?.other?.dream_world?.front_default} alt={pokemon.name} className="w-[200px] h-[200px] xl:w-auto xl:h-auto" />
         </div>
-        <h1 className="mt-5 text-3xl font-bold text-primary">{pokemon?.name}</h1>
+        <h1
+          cy-data="pokemon-name"
+          className="mt-5 text-3xl font-bold text-primary">{pokemon?.name}</h1>
         <div className="flex justify-between mt-4">
           <Description name="Número" decription={pokemon?.id?.toString() || ''} />
           <Description name="Altura" decription={pokemon?.height?.toString() || ''} />
@@ -88,14 +82,12 @@ const PokemonDetail = () => {
         </div>
         <h1 className="mt-2 mb-2 text-lg font-medium ">Estadísticas base</h1>
         <div className="grid grid-cols-3 xl:grid-cols-5">
-          <Stats baseStat={pokemon?.stats?.[1]?.base_stat || 0} statName="Ataque" />
-          <Stats baseStat={pokemon?.stats?.[2]?.base_stat || 0} statName="Defensa" />
-          <Stats baseStat={pokemon?.stats?.[3]?.base_stat || 0} statName="Ataque especial" />
-          <Stats baseStat={pokemon?.stats?.[4]?.base_stat || 0} statName="Defensa especial" />
-          <Stats baseStat={pokemon?.stats?.[5]?.base_stat || 0} statName="Velocidad" />
+          <StatsDetail baseStat={pokemon?.stats?.[1]?.base_stat || 0} statName="Ataque" />
+          <StatsDetail baseStat={pokemon?.stats?.[2]?.base_stat || 0} statName="Defensa" />
+          <StatsDetail baseStat={pokemon?.stats?.[3]?.base_stat || 0} statName="Ataque especial" />
+          <StatsDetail baseStat={pokemon?.stats?.[4]?.base_stat || 0} statName="Defensa especial" />
+          <StatsDetail baseStat={pokemon?.stats?.[5]?.base_stat || 0} statName="Velocidad" />
         </div>
-
-
       </div>
     </>
   )

@@ -14,5 +14,6 @@ describe("List all pokemons", () => {
   it("Go to detail of a pokemon", async () => {
     cy.get(".card").first().find("a").click();
     cy.url().should("include", "/pokemons/");
+    cy.get('[data-cy="back-link"]').click();
   })
 });

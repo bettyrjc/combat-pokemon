@@ -44,7 +44,7 @@ export default function PokemonList() {
     <>
       <SearchIcon ref={searchRef} onChange={filteredPokemons} />
       <div className='flex flex-wrap justify-center gap-5 overflow-scroll scrollbar-hidden min-h-[700px] max-h-[1200px]'>
-        {pokemonsData.map((pokemon: any) => (
+        {pokemonsData.length > 0 ?pokemonsData.map((pokemon: any) => (
           <div className='relative card' key={pokemon.name}>
             <div className="absolute z-10 right-2 top-2">
               <CircleButton
@@ -62,7 +62,8 @@ export default function PokemonList() {
               <h2 className="pt-4 pb-3 text-lg text-center ">{pokemon.name}</h2>
             </Link>
           </div>
-        ))}
+        )) : <p className='text-gray-400'>No se encontró pokemones para combatir 😔.</p>
+        }
       </div>
     </>
   )
