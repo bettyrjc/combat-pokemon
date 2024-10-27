@@ -30,7 +30,6 @@ describe("Pokemon detail", () => {
             },
           },
         },
-        // ... otros datos necesarios
       },
     }).as("getPokemon");
     cy.visit("/pokemons/ivysaur");
