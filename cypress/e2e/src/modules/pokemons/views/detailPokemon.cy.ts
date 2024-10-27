@@ -38,7 +38,9 @@ describe("Pokemon detail", () => {
       .should("be.visible")
       .should("be.enabled");
   });
-
+  it("pokemon has name", () => {
+    cy.get('[cy-data="pokemon-name"]').should("have.text", "ivysaur");
+  });
   it("handle add and delete from list", () => {
     cy.get('[data-cy="combat-button"]').click();
     cy.get('[data-cy="combat-button"]').should(
@@ -46,19 +48,15 @@ describe("Pokemon detail", () => {
       "Eliminar de la lista"
     );
 
-    cy.get('[data-cy="combat-button"]')
-    .should("have.text", "Eliminar de la lista");
+    cy.get('[data-cy="combat-button"]').should(
+      "have.text",
+      "Eliminar de la lista"
+    );
     cy.get('[data-cy="combat-button"]').click();
-  });
-
-  it("pokemon has name", () => {
-    cy.get('[cy-data="pokemon-name"]').should("have.text", "ivysaur");
   });
 
   it("Back to list", () => {
     cy.get('[data-cy="back-link"]').click();
     cy.url().should("eq", Cypress.config().baseUrl + "/");
   });
-
-
 });

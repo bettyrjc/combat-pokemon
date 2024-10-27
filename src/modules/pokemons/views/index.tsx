@@ -45,7 +45,7 @@ export default function PokemonList() {
       <SearchIcon ref={searchRef} onChange={filteredPokemons} />
       <div className='flex flex-wrap justify-center gap-5 overflow-scroll scrollbar-hidden min-h-[700px] max-h-[1200px]'>
         {pokemonsData.length > 0 ? pokemonsData.map((pokemon: any) => (
-          <div className='relative card' key={pokemon.name}>
+          <div className='relative card' key={pokemon.name} data-cy={pokemon.name}>
             <div className="absolute z-10 right-2 top-2">
               <CircleButton
                 dataCy="add-pokemon"
