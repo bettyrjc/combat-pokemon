@@ -12,6 +12,7 @@ const SearchIcon = forwardRef<HTMLInputElement, { onChange: (e: ChangeEvent<HTML
             ref={ref}
             onChange={onChange}
             onBlur={onChange}
+            id="search-input"
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"

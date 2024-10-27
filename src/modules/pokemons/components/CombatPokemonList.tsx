@@ -31,6 +31,7 @@ const CombatPokemonList = () => {
             combatList.map((pokemon: PokemonCombat) => (
               <div
                 key={pokemon.id}
+                data-cy="combat-card"
                 className="relative flex justify-center flex-col items-center hover:border-none p-4 bg-base-300  shadow-lg border border-orange-100 rounded-xl w-[190px] h-[180px] group"
                 onMouseEnter={() => setHoveredPokemon(pokemon.id)}
                 onMouseLeave={() => setHoveredPokemon(null)}

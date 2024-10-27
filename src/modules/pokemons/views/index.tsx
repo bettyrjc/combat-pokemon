@@ -45,7 +45,7 @@ export default function PokemonList() {
       <SearchIcon ref={searchRef} onChange={filteredPokemons} />
       <div className='flex flex-wrap justify-center gap-5 overflow-scroll scrollbar-hidden min-h-[700px] max-h-[1200px]'>
         {pokemonsData.map((pokemon: any) => (
-          <div className='relative' key={pokemon.name}>
+          <div className='relative card' key={pokemon.name}>
             <div className="absolute z-10 right-2 top-2">
               <CircleButton
                 icon={<PlusIcon className='text-white size-5' />}
@@ -54,7 +54,8 @@ export default function PokemonList() {
             </div>
             <Link
               to={`/pokemons/${pokemon.name}`}
-              className=" cursor-pointer hover:shadow-2xl transition-shadow duration-300 border border-gray-100 relative flex flex-col items-center justify-center | shadow-xl rounded-xl bg-base-100 w-60 h-72 pt-5">
+
+              className="cursor-pointer hover:shadow-2xl transition-shadow duration-300 border border-gray-100 relative flex flex-col items-center justify-center | shadow-xl rounded-xl bg-base-100 w-60 h-72 pt-5">
 
               <LazyImage url={pokemon.url || ''} name={pokemon.name}
               />
