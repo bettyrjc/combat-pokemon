@@ -45,11 +45,15 @@ const CombatPokemonList = () => {
                       onClick={() => getPokemonDetail(pokemon.name)}
                     >{pokemon.name.toUpperCase()}</p>
                     <div className='flex gap-1'>
-                      <button className='p-1 transition-all duration-300 rounded-full shadow-xl hover:bg-secondary' onClick={() => deletePokemon(pokemon.id)}>
+                      <button
+                        data-cy="delete-pokemon"
+                        className='p-1 transition-all duration-300 rounded-full shadow-xl hover:bg-secondary' onClick={() => deletePokemon(pokemon.id)}>
                         <TrashIcon className='text-white size-4' />
                       </button>
                       {/* suggest go to detail */}
-                      <Link to={`/pokemons/${pokemon.name}`} className='p-1 transition-all duration-300 rounded-full shadow-xl hover:bg-secondary '>
+                      <Link
+                        data-cy="detail-link"
+                        to={`/pokemons/${pokemon.name}`} className='p-1 transition-all duration-300 rounded-full shadow-xl hover:bg-secondary '>
                         <EyeIcon className='text-white size-4' />
                       </Link>
                     </div>

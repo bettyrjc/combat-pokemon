@@ -4,6 +4,7 @@ const CircleButton = ({
   icon,
   isDisabled,
   isLoading,
+  dataCy
 }: {
   onClick?: () => void
   icon?: React.ReactNode
@@ -11,9 +12,12 @@ const CircleButton = ({
   isDisabled?: boolean
   isLoading?: boolean
   withBackground?: boolean
+  dataCy?: string
 }) => {
   return (
-    <button className={`
+    <button 
+    data-cy={dataCy}
+    className={`
       p-1  rounded-full shadow-xl transition-all duration-300
       ${isDisabled ? 'bg-gray-300 cursor-none' : 'bg-primary cursor-pointer hover:bg-orange-600'}
       `}
