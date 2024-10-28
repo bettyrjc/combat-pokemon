@@ -6,7 +6,7 @@ import { ChevronLeftIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { getPokemonDetail } from "../store/pokemon.action";
 import { PokemonCombat, useCombatPokemonContext } from "../contenxt/AddPokemonContext";
-import NotFoundPokemon from "../components/NotFoundPokemon";
+import NotFoundPokemon from "../components/detail/NotFoundPokemon";
 import PokemonDetailSkeleton from '../components/detail/PokemonDetailSkeleton';
 import StatsDetail from "../components/detail/StatsDetail";
 

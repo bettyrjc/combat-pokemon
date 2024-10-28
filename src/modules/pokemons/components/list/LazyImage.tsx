@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from 'react';
-import { httpInstance } from '../../../assets/api';
-import { useCombatPokemonContext } from '../contenxt/AddPokemonContext';
+import { useCombatPokemonContext } from '../../contenxt/AddPokemonContext';
+import { httpInstance } from '../../../../assets/api';
+
 
 type LazyImageProps = {
   url: string;

@@ -6,7 +6,7 @@
   display: none; 
 }
 
-/* Para Firefox */
+/* Firefox */
 .scrollbar-hidden {
   scrollbar-width: none; 
   -ms-overflow-style: none; 
