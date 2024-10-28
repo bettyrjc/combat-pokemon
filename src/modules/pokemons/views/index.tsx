@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { getPokemonList } from '../store/pokemon.action'
-import LazyImage from '../components/list/LazyImage'
-import SearchIcon from '../../shared/inputs/SearchInput'
-import CircleButton from '../../shared/buttons/CircleButton'
+import { Link } from 'react-router-dom'
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/solid'
+import { useAppDispatch, useAppSelector } from '../hooks/redux'
+
+import { getPokemonList } from '../store/pokemon.action'
+
+import SearchInput from '../../shared/inputs/SearchInput'
+import CircleButton from '../../shared/buttons/CircleButton'
+import LazyImage from '../components/list/LazyImage'
 import ListSkeleton from '../components/list/ListSkeleton'
 import { useCombatPokemonContext } from '../contenxt/AddPokemonContext'
-import { Link } from 'react-router-dom'
 import { extractUrlId } from '../../shared/common'
 
 export default function PokemonList() {
@@ -57,7 +59,7 @@ export default function PokemonList() {
 
   return (
     <>
-      <SearchIcon ref={searchRef} onChange={filteredPokemons}
+      <SearchInput ref={searchRef} onChange={filteredPokemons}
       />
       <div className='flex flex-wrap justify-center gap-5 overflow-scroll scrollbar-hidden min-h-[700px] max-h-[1200px]'>
         {pokemonsData.length > 0 ? pokemonsData.map((pokemon: any) => {
