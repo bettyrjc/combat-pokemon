@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import PokemonList from './modules/pokemons/views/index';
 import { Toaster } from 'react-hot-toast';
 import PokemonDetail from './modules/pokemons/views/[id]';
@@ -15,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<PokemonList />} />
         <Route path="/pokemons/:id" element={<PokemonDetail />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
   );

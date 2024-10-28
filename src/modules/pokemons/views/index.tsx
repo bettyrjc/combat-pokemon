@@ -40,19 +40,25 @@ export default function PokemonList() {
   };
 
   const handlePokemonToggle = (pokemon: any, isCombat: boolean) => {
+    // Extract the id from the url
+    //if pokemon is in pokemon list, delete it
     if (isCombat) {
       const id = extractUrlId(pokemon.url)
       deletePokemon(id)
       return;
     }
+    //if pokemon is not in pokemon list, add it
     addPokemon(pokemon)
   }
+
+
   if (loading) return <ListSkeleton />
   if (error) return <div>Error: {error}</div>
 
   return (
     <>
-      <SearchIcon ref={searchRef} onChange={filteredPokemons} />
+      <SearchIcon ref={searchRef} onChange={filteredPokemons}
+      />
       <div className='flex flex-wrap justify-center gap-5 overflow-scroll scrollbar-hidden min-h-[700px] max-h-[1200px]'>
         {pokemonsData.length > 0 ? pokemonsData.map((pokemon: any) => {
           const isInCombatList = combatList.some(item => item.name === pokemon?.name)
