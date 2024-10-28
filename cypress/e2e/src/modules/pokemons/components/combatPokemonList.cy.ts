@@ -35,13 +35,6 @@ describe("Combat list test", () => {
     cy.url().should("include", "/pokemons/");
   });
 
-  it("not repeat pokemon", () => {
-    cy.visit("/");
-
-    cy.get('[data-cy="add-pokemon"]').first().click();
-    cy.get('[data-cy="add-pokemon"]').first().click();
-    cy.get('[data-cy="combat-card"]').should("have.length", 1);
-  });
   it("Not exceed the maximum number of pokemons", () => {
     cy.visit("/");
 

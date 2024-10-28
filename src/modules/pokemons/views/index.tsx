@@ -5,16 +5,17 @@ import { getPokemonList } from '../store/pokemon.action'
 import LazyImage from '../components/LazyImage'
 import SearchIcon from '../../shared/inputs/SearchIcon'
 import CircleButton from '../../shared/buttons/CircleButton'
-import { PlusIcon } from '@heroicons/react/24/solid'
+import { PlusIcon, TrashIcon } from '@heroicons/react/24/solid'
 import ListSkeleton from '../components/ListSkeleton'
 import { useCombatPokemonContext } from '../contenxt/AddPokemonContext'
 import { Link } from 'react-router-dom'
+import { extractUrlId } from '../../shared/common'
 
 export default function PokemonList() {
   const dispatch = useAppDispatch()
   const searchRef = useRef<HTMLInputElement>(null)
   const { loading, pokemons, error } = useAppSelector((state) => state.pokemons)
-  const { addPokemon } = useCombatPokemonContext();
+  const { addPokemon, combatList, deletePokemon } = useCombatPokemonContext();
 
   const [pokemonsData, setPokemonsData] = useState(pokemons)
 
@@ -37,6 +38,15 @@ export default function PokemonList() {
     // Update the search result with delay for a better UX
     setTimeout(() => setPokemonsData(filtered), 500)
   };
+
+  const handlePokemonToggle = (pokemon: any, isCombat: boolean) => {
+    if (isCombat) {
+      const id = extractUrlId(pokemon.url)
+      deletePokemon(id)
+      return;
+    }
+    addPokemon(pokemon)
+  }
   if (loading) return <ListSkeleton />
   if (error) return <div>Error: {error}</div>
 
@@ -44,26 +54,32 @@ export default function PokemonList() {
     <>
       <SearchIcon ref={searchRef} onChange={filteredPokemons} />
       <div className='flex flex-wrap justify-center gap-5 overflow-scroll scrollbar-hidden min-h-[700px] max-h-[1200px]'>
-        {pokemonsData.length > 0 ? pokemonsData.map((pokemon: any) => (
-          <div className='relative card' key={pokemon.name} data-cy={pokemon.name}>
-            <div className="absolute z-10 right-2 top-2">
-              <CircleButton
-                dataCy="add-pokemon"
-                icon={<PlusIcon className='text-white size-5' />}
-                onClick={() => addPokemon(pokemon)}
-              />
+        {pokemonsData.length > 0 ? pokemonsData.map((pokemon: any) => {
+          const isInCombatList = combatList.some(item => item.name === pokemon?.name)
+          return (
+            <div className='relative card' key={pokemon.name} data-cy={pokemon.name}>
+              <div className="absolute z-10 right-2 top-2">
+                <CircleButton
+                  dataCy={isInCombatList ? "delete-pokemon" : "add-pokemon"}
+                  icon={isInCombatList ?
+                    <TrashIcon className='text-white size-5' /> :
+                    <PlusIcon className='text-white size-5' />
+                  }
+                  onClick={() => handlePokemonToggle(pokemon, isInCombatList)}
+                />
+              </div>
+              <Link
+                to={`/pokemons/${pokemon.name}`}
+
+                className="cursor-pointer hover:shadow-2xl transition-shadow duration-300 border border-gray-100 relative flex flex-col items-center justify-center | shadow-xl rounded-xl bg-base-100 w-60 h-72 pt-5">
+
+                <LazyImage url={pokemon.url || ''} name={pokemon.name}
+                />
+                <h2 className="pt-4 pb-3 text-lg text-center ">{pokemon.name}</h2>
+              </Link>
             </div>
-            <Link
-              to={`/pokemons/${pokemon.name}`}
-
-              className="cursor-pointer hover:shadow-2xl transition-shadow duration-300 border border-gray-100 relative flex flex-col items-center justify-center | shadow-xl rounded-xl bg-base-100 w-60 h-72 pt-5">
-
-              <LazyImage url={pokemon.url || ''} name={pokemon.name}
-              />
-              <h2 className="pt-4 pb-3 text-lg text-center ">{pokemon.name}</h2>
-            </Link>
-          </div>
-        )) : <p className='text-gray-400'>No se encontró pokemones para combatir 😔.</p>
+          )
+        }) : <p className='text-gray-400'>No se encontró pokemones para combatir 😔.</p>
         }
       </div>
     </>

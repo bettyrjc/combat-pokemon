@@ -82,6 +82,12 @@ export const CombatPokemonProvider: FC<{ children: ReactNode }> = ({ children })
   const deletePokemon = (id: string) => {
     const deletedPokemon = combatList.filter((item: PokemonCombat) => item.id !== id);
     setCombatList(deletedPokemon);
+    toast(`Se eliminó el pokemon de la lista 🤺`,
+      {
+        icon: '🗑️'
+      }
+    );
+
   }
   return (
     <CombatPokemonContext.Provider
