@@ -69,6 +69,7 @@ export default function PokemonList() {
               <div className="absolute z-10 right-2 top-2">
                 <CircleButton
                   dataCy={isInCombatList ? "delete-pokemon" : "add-pokemon"}
+                  isPrimary={isInCombatList ? false : true}
                   icon={isInCombatList ?
                     <TrashIcon className='text-white size-5' /> :
                     <PlusIcon className='text-white size-5' />
