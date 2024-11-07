@@ -4,21 +4,21 @@ import { Link } from 'react-router-dom'
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/solid'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 
-import {  getPokemonList } from '../store/pokemon.action'
+import { getPokemonList } from '../store/pokemon.action'
 
 import SearchInput from '../../shared/inputs/SearchInput'
 import CircleButton from '../../shared/buttons/CircleButton'
 import LazyImage from '../components/list/LazyImage'
 import ListSkeleton from '../components/list/ListSkeleton'
-import { useCombatPokemonContext } from '../contenxt/AddPokemonContext'
+import { addPokemonToCombat, deletePokemonFromCombat } from '../store/reducer/combatList.reducer'
 
 export default function PokemonList() {
   const dispatch = useAppDispatch()
   const searchRef = useRef<HTMLInputElement>(null)
   const { loading, pokemons, error } = useAppSelector((state) => state.pokemons)
-  const { addPokemon, combatList, deletePokemon } = useCombatPokemonContext();
-  const [pokemonsData, setPokemonsData] = useState(pokemons)
+  const { combatList } = useAppSelector((state) => state.combatPokemons)
 
+  const [pokemonsData, setPokemonsData] = useState(pokemons)
   useEffect(() => {
     dispatch(getPokemonList())
   }, [dispatch])
@@ -42,13 +42,13 @@ export default function PokemonList() {
   const handlePokemonToggle = (pokemon: any, isCombat: boolean) => {
     //if pokemon is in pokemon list, delete it
     if (isCombat) {
-      deletePokemon(pokemon.id)
+      dispatch(deletePokemonFromCombat(pokemon.id))
+      return;
     }
     //if pokemon is not in pokemon list, add it
-    addPokemon(pokemon)
-  }
+    dispatch(addPokemonToCombat(pokemon))
 
-console.log('combatList', combatList )
+  }
 
   if (loading) return <ListSkeleton />
   if (error) return <div>Error: {error}</div>
@@ -78,7 +78,7 @@ console.log('combatList', combatList )
 
                 className="cursor-pointer hover:shadow-2xl transition-shadow duration-300 border border-gray-100 relative flex flex-col items-center justify-center | shadow-xl rounded-xl bg-base-100 w-60 h-72 pt-5">
 
-                <LazyImage url={pokemon.image || ''} name={pokemon.name}/>
+                <LazyImage url={pokemon.image || ''} name={pokemon.name} />
                 <h2 className="pt-4 pb-3 text-lg text-center ">{pokemon.name}</h2>
               </Link>
             </div>

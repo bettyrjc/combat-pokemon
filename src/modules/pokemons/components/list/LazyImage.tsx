@@ -43,7 +43,7 @@ const LazyImage = ({ url, name }: LazyImageProps) => {
             src={url} 
             alt={name} 
             loading="lazy" 
-            className="w-52 h-52" 
+            className="w-40 h-40" 
           />
         </figure>
       ) : (

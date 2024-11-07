@@ -5,10 +5,11 @@ import { ChevronLeftIcon, PlusIcon } from "@heroicons/react/24/solid";
 
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { getPokemonDetail } from "../store/pokemon.action";
-import { PokemonCombat, useCombatPokemonContext } from "../contenxt/AddPokemonContext";
+import { statsName } from "../../../assets/mocks/statName";
 import NotFoundPokemon from "../components/detail/NotFoundPokemon";
 import PokemonDetailSkeleton from '../components/detail/PokemonDetailSkeleton';
-import StatsDetail from "../components/detail/StatsDetail";
+import StatsDetail from '../components/detail/StatsDetail';
+import { addPokemonToCombat, deletePokemonFromCombat, PokemonCombat } from "../store/reducer/combatList.reducer";
 
 
 
@@ -21,8 +22,8 @@ const Description = ({ name, decription }:
 
 const PokemonDetail = () => {
   const dispatch = useAppDispatch()
+  const { combatList } = useAppSelector((state) => state.combatPokemons)
   const { id } = useParams()
-  const { addPokemon, combatList, deletePokemon } = useCombatPokemonContext();
 
   const { loading, pokemon, error } = useAppSelector((state) => state.pokemon)
 
@@ -39,15 +40,31 @@ const PokemonDetail = () => {
 
   const actionToCombat = () => {
     if (isPokemonInCombatList && pokemon.id) {
-      deletePokemon(pokemon.id.toString())
+      dispatch(deletePokemonFromCombat(pokemon.id))
       return;
     }
-    addPokemon({
+    dispatch(addPokemonToCombat({
       id: pokemon?.id,
       name: pokemon?.name,
       image: pokemon?.sprites?.other?.dream_world?.front_default
-    })
+    }))
   }
+
+  const pokemonType = pokemon?.types?.map((type: {
+    type: { name: string }
+  }) => type.type.name).join(', ') || ''
+
+
+  const statsDetails = pokemon?.stats?.map((stat: {
+    base_stat: number
+  }, index: number) => {
+    const data = {
+      baseStat: stat.base_stat,
+      statName: statsName[index]
+    }
+    return data;
+  })
+
   if (loading) return <PokemonDetailSkeleton />
   if (error) return <NotFoundPokemon error={error} />
   return (
@@ -78,15 +95,17 @@ const PokemonDetail = () => {
         <div className="flex justify-between mt-4">
           <Description name="Número" decription={pokemon?.id?.toString() || ''} />
           <Description name="Altura" decription={pokemon?.height?.toString() || ''} />
-          <Description name="Tipo" decription={pokemon?.types?.[0]?.type?.name || ''} />
+          <Description name="Tipo" decription={pokemonType} />
         </div>
         <h1 className="mt-2 mb-2 text-lg font-medium ">Estadísticas base</h1>
         <div className="grid grid-cols-3 xl:grid-cols-5">
-          <StatsDetail baseStat={pokemon?.stats?.[1]?.base_stat || 0} statName="Ataque" />
-          <StatsDetail baseStat={pokemon?.stats?.[2]?.base_stat || 0} statName="Defensa" />
-          <StatsDetail baseStat={pokemon?.stats?.[3]?.base_stat || 0} statName="Ataque especial" />
-          <StatsDetail baseStat={pokemon?.stats?.[4]?.base_stat || 0} statName="Defensa especial" />
-          <StatsDetail baseStat={pokemon?.stats?.[5]?.base_stat || 0} statName="Velocidad" />
+          {statsDetails?.map((stat, index) => (
+            <StatsDetail
+              key={index}
+              baseStat={stat.baseStat}
+              statName={stat.statName}
+            />
+          ))}
         </div>
       </div>
     </>
