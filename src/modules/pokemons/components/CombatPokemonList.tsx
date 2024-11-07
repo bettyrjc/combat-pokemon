@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { EyeIcon, TrashIcon } from '@heroicons/react/24/solid';
-import { PokemonCombat, useCombatPokemonContext } from '../contenxt/AddPokemonContext';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { deletePokemonFromCombat, PokemonCombat } from '../store/reducer/combatList.reducer';
 
 const CombatPokemonList = () => {
-  const { combatList, deletePokemon } = useCombatPokemonContext();
+  const dispatch = useAppDispatch()
+  const { combatList } = useAppSelector((state) => state.combatPokemons)
   const [hoveredPokemon, setHoveredPokemon] = useState<string | null>(null);
   const navigate = useNavigate();
   useEffect(() => {
@@ -17,7 +19,10 @@ const CombatPokemonList = () => {
 
   const getPokemonDetail = (name: string) => {
     navigate(`/pokemons/${name}`);
+  }
 
+  const deletePokemon = (id: string) => {
+    dispatch(deletePokemonFromCombat(id))
   }
 
   return (

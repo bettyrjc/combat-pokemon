@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface PokemonInterface {
+export interface PokemonDetailInterface {
   abilities:                Ability[];
   base_experience:          number;
   cries:                    Cries;
