@@ -19,7 +19,7 @@ const CombatPokemonList = () => {
     navigate(`/pokemons/${name}`);
 
   }
-
+console.log(combatList)
   return (
     <div className='h-full overflow-auto scrollbar-hidden'>
       <h2 className='mb-4 text-3xl font-bold text-center text-primary'>Listos para el combate 🤺</h2>
